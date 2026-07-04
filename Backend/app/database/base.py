@@ -4,7 +4,7 @@ from sqlalchemy.orm import DeclarativeBase
 
 # All database models are created here
 
-class base(DeclarativeBase):
+class Base(DeclarativeBase):
     
     
     
