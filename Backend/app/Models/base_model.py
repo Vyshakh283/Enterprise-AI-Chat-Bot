@@ -17,3 +17,4 @@ class BaseModel(Base):
                                                 nullable=False)
     updated_at: Mapped[datetime] =mapped_column(DateTime(timezone=True),onupdate=func.now(),
                                                 nullable=False)
+    is_active: Mapped[bool] = mapped_column(Boolean,default=True,nullable=False,)
