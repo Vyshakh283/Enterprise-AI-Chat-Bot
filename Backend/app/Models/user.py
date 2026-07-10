@@ -1,9 +1,9 @@
 from sqlalchemy import String
-from sqlalchemy.orm import Mapped,mapped_column
+from sqlalchemy.orm import Mapped,mapped_column,relationship
 from Backend.app.Models.base_model import BaseModel
 
 class User(BaseModel):
-    __tablename__ = "Users"
+    __tablename__ = "Users_Table"
     
     username : Mapped[String]=mapped_column(
         String(50),
@@ -29,5 +29,6 @@ class User(BaseModel):
         default="user",
         nullable=False,
     )
-    
+    # conversations done by 1 user
+    conversations= relationship("Conversation",back_populates="user",cascade="all, delete-orphan",)
     
