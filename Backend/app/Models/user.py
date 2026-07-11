@@ -31,4 +31,6 @@ class User(BaseModel):
     )
     # conversations done by 1 user
     conversations= relationship("Conversation",back_populates="user",cascade="all, delete-orphan",)
+    # relationship between document and the user
+    document=relationship("Document",back_populates="user")
     
