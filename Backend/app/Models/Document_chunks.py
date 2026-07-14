@@ -34,5 +34,11 @@ class document_chunks(BaseModel):
     "Document",# class name of primary key in
     back_populates="chunks",# the ralationship connection name in the document class
     )
+    embedding=relationship(
+    "Embedding",
+    back_populates="chunk",
+    uselist=False,
+    cascade="all,delete-orphan",
+    )
     
     

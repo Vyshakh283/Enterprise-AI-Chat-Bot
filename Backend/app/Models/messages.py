@@ -24,4 +24,11 @@ class Messages(BaseModel):
         nullable=False,
     )
     # many messages has 1 conversations 
-    conversations=Relationship("Conversation",back_populates="messages")
+    conversations = Relationship("Conversation",back_populates="messages")
+    
+    # Feedback Relationship 
+    feedbck = Relationship("Feedback",
+                         back_populates="message",
+                         cascade="all, delete-orphan")
+    
+    
