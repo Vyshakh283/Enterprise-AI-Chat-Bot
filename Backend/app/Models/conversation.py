@@ -24,3 +24,15 @@ class Conversation(BaseModel):
     messages=relationship("Messages",back_populates="conversations")
     
     
+    
+    llm_requests = relationship(
+    "LLMRequestLog",
+    back_populates="conversation",
+)
+    
+    sql_queries = relationship(
+    "SQLQueryLog",
+    back_populates="conversation",
+)
+    
+    

@@ -34,3 +34,12 @@ class User(BaseModel):
     # relationship between document and the user
     document=relationship("Document",back_populates="user")
     
+    audit_logs = relationship(
+    "AuditLog",
+    back_populates="user",
+    cascade="all, delete-orphan",
+)
+    
+    
+    
+    
