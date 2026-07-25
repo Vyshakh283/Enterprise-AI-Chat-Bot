@@ -1,6 +1,7 @@
 from pydantic import BaseModel,ConfigDict,EmailStr,Field
+from Backend.app.Schemas.base_schema import BaseSchema
 
-class UserRegisterRequest(  BaseModel):
+class UserRegisterRequest(BaseSchema):
     '''Request body validation'''
     username:str=Field(min_length=3,max_length=15,description="Unique name")
     
