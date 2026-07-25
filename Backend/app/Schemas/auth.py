@@ -11,4 +11,35 @@ class UserRegisterRequest(BaseSchema):
     
     model_config=ConfigDict(extra="forbid",str_strip_whitespace=True)
     
+    class UserLoginRequest(BaseSchema):
+     """
+     Request body for user login.
+     """
+
+    email: EmailStr
+
+    password: str
+
+
+class TokenResponse(BaseSchema):
+    """
+    JWT access token returned after authentication.
+    """
+
+    access_token: str
+
+    token_type: str = "Bearer"
+
+
+class UserResponse(BaseSchema):
+    """
+    User information returned to the client.
+    """
+
+    id: int
+
+    username: str
+
+    email: EmailStr
+    
     
