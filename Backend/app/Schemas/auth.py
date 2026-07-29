@@ -11,14 +11,13 @@ class UserRegisterRequest(BaseSchema):
     
     model_config=ConfigDict(extra="forbid",str_strip_whitespace=True)
     
-    class UserLoginRequest(BaseSchema):
+class UserLoginRequest(BaseSchema):
      """
      Request body for user login.
      """
+     email: EmailStr
 
-    email: EmailStr
-
-    password: str
+     password: str
 
 
 class TokenResponse(BaseSchema):
