@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     
     JWT_SECRET_KEY: str=Field(
         default="Demokeypresented",
-        description="Jwt secret key_Demo",
+        description="JWT_SECRET_KEY ",
     )
 
     
