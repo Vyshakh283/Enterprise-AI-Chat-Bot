@@ -1,12 +1,9 @@
-from datetime import datetime,timezone
 from fastapi import APIRouter
 
 
-router=APIRouter()
+router=APIRouter(prefix="/health")
 
-@router.get(
-    "/health",
-    summary="Health")
+@router.get("")
 async def Health():
     return {"msg":"Healthy"}
 

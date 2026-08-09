@@ -8,15 +8,17 @@ from Backend.app.Schemas.auth import UserRegisterRequest,UserResponse,UserLoginR
 from Backend.app.core.security import hash_password,verify_password,jwt_Token_creation,decode_access_token
 
 class AuthService :
+    def __init__(self, db: Session):
+        self.db = db
+        
     def register_user(
         self,
-        db: Session,
         request: UserRegisterRequest,
     ) -> User:
 
         # Check email already exists
         existing_user = (
-            db.query(User).filter(User.email == request.Email).first()
+            self.db.query(User).filter(User.email == request.Email).first()
         )
 
         if existing_user:
@@ -28,16 +30,16 @@ class AuthService :
         # Create user object
         user = User(
             username=request.username,
-            email=request.Email,
+            Email=request.Email,
             hashed_password=hashed_password,
         )
 
-        db.add(user)
-        db.commit()
-        db.refresh(user)
+        self.db.add(user)
+        self.db.commit()
+        self.db.refresh(user)
 
         return user
-
+    # Login User
     def authenticate_user(
         self,
         db: Session,
@@ -45,7 +47,7 @@ class AuthService :
     ) -> str:
 
         user = (
-            db.query(User)
+            self.db.query(User)
             .filter(User.email == request.email)
             .first()
         )
@@ -83,6 +85,5 @@ class AuthService :
         return payload
 
 
-auth_service = AuthService()
         
     
