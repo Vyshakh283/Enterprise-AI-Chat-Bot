@@ -1,4 +1,4 @@
-from sqlalchemy.orm import mapped_column,Mapped,Relationship
+from sqlalchemy.orm import mapped_column,Mapped,relationship
 from sqlalchemy import String,ForeignKey,Text
 
 from Backend.app.Models.base_model import BaseModel
@@ -24,10 +24,10 @@ class Messages(BaseModel):
         nullable=False,
     )
     # many messages has 1 conversations 
-    conversations = Relationship("Conversation",back_populates="messages")
+    conversations = relationship("Conversation",back_populates="messages")
     
     # Feedback Relationship 
-    feedbck = Relationship("Feedback",
+    feedbck = relationship("Feedback",
                          back_populates="message",
                          cascade="all, delete-orphan")
     

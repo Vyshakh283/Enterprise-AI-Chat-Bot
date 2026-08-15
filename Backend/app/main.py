@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from Backend.app.core.configure import settings
 from Backend.app.core.logging import setup_logging,get_logger
+from Backend.app.Models import _init_
 from Backend.app.routers.api_router.api_routers import api_router
 
 

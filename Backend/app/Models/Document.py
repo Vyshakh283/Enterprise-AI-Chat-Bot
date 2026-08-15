@@ -56,7 +56,7 @@ class Document(BaseModel):
     )
 
     user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"),
+        ForeignKey("Users_Table.id"),
         nullable=False,
         index=True,
     )
@@ -64,7 +64,7 @@ class Document(BaseModel):
     # Relationship with User
     user = relationship(
         "User",
-        back_populates="documents",
+        back_populates="document",
     )
 
     # Relationship with Document Chunks

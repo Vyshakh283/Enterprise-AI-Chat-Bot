@@ -34,5 +34,5 @@ class AuditLog(BaseModel):
 
     user = relationship(
         "User",
-        back_populates="audit_logs",
+        back_populates="audit_logs"
     )
