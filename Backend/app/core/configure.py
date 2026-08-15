@@ -55,8 +55,8 @@ class Settings(BaseSettings):
         description="Algorithm",
     )
     DATABASE_URL:str=Field(
-        default="jashka",
-        description="DATABASE_URL "
+        default="",
+        description="DATABASE_URL"
     )
 
 

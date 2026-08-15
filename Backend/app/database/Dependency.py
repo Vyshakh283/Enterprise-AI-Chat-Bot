@@ -1,5 +1,3 @@
-from Backend.app.core.configure import settings
-from Backend.app.database.db import engine
 from Backend.app.database.db import session_local
 from collections.abc import Generator
 from sqlalchemy.orm import Session,sessionmaker
