@@ -1,4 +1,4 @@
-from app.database.base import Base
+from Backend.app.database.base import Base
 from datetime import datetime
 from sqlalchemy import DateTime,Boolean
 from sqlalchemy.orm import Mapped,mapped_column
