@@ -9,7 +9,7 @@ class AuditLog(BaseModel):
     __tablename__ = "audit_logs"
 
     user_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id"),
+        ForeignKey("Users_Table.id"),
         nullable=False,
     )
 

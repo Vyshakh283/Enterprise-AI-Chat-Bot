@@ -7,7 +7,7 @@ class Embedding(BaseModel):
     __tablename__="Embedding_Table"
     
     chunk_id: Mapped[int] = mapped_column(
-        ForeignKey("Documnets_chunks_id.id"),
+        ForeignKey("Document_chunks_table.id"),
         nullable=False,
         unique=True,
         index=True,

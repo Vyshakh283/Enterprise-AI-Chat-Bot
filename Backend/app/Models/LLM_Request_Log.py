@@ -9,7 +9,7 @@ class LLMRequestLog(BaseModel):
     __tablename__ = "llm_request_logs"
 
     conversation_id: Mapped[int] = mapped_column(
-        ForeignKey("conversations.id"),
+        ForeignKey("Conversation_Table.id"),
         nullable=False,
     )
 
