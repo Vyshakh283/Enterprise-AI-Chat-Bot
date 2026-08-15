@@ -32,7 +32,7 @@ class AuthService :
         # Create user object
         user = User(
             username=request.username,
-            Email=request.Email,
+            email=request.Email,
             hashed_password=hashed_password,
         )
         return self.userrepository.create(user)
