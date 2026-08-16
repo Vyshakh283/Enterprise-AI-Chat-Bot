@@ -9,7 +9,7 @@ from Backend.app.repositories.user_repository import UserRepository
 
 
 oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl="/auth/login"
+    tokenUrl="/auth/oauth2-login"
 )
 
 
