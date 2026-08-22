@@ -1,3 +1,5 @@
+
+from uuid import UUID, uuid4
 from sqlalchemy import String, ForeignKey, BigInteger
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from Backend.app.Models.Enum import Document_Status
@@ -17,6 +19,13 @@ class Document(BaseModel):
     """
 
     __tablename__ = "documents"
+    
+    document_uuid: Mapped[UUID] = mapped_column(
+        unique=True,
+        nullable=False,
+        default=uuid4,
+        index=True,
+    )
 
     filename: Mapped[str] = mapped_column(
         String(255),
@@ -28,7 +37,7 @@ class Document(BaseModel):
         nullable=False,
     )
 
-    storage_path: Mapped[str] = mapped_column(
+    file_path: Mapped[str] = mapped_column(
         String(500),
         nullable=False,
         unique=True,
