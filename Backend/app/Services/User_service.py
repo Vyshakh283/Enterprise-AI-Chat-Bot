@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 from fastapi import FastAPI,HTTPException,status
+from Backend.app.core.logging import get_logger
 
 from Backend.app.Models.user import User
 # function not created
@@ -10,6 +11,8 @@ from Backend.app.Schemas.auth import UserRegisterRequest,UserLoginRequest,TokenR
 from Backend.app.core.security import (hash_password,verify_password,jwt_Token_creation,decode_access_token)
 
 from Backend.app.repositories.user_repository import UserRepository
+
+logger=get_logger(__name__)
 
 class AuthService :
     def __init__(self, db: Session):
@@ -24,6 +27,7 @@ class AuthService :
         existing_user = self.userrepository.get_by_email(request.Email)
 
         if existing_user:
+            logger.warning("Email already exists")
             raise ValueError("Email already exists")
 
         # Hash password
@@ -49,6 +53,7 @@ class AuthService :
 
         # User doesn't exist
         if user is None:
+            logger.warning("Invalid email or password")
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid email or password",
@@ -56,6 +61,7 @@ class AuthService :
 
         # Check locked account
         if user.is_locked:
+            logger.warning("User account is locked")
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="User account is locked",
@@ -63,6 +69,7 @@ class AuthService :
 
         # Check inactive account
         if not user.is_active:
+            logger.warning("User account is inactive")
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail="User account is inactive",
@@ -76,7 +83,7 @@ class AuthService :
 
         # Wrong password
         if not password_valid:
-
+            logger.warning("Invalid email or password")
             user.failed_login_attempts += 1
 
             self.userrepository.update(user)

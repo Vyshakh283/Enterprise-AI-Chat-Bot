@@ -89,7 +89,12 @@ tensorboard/
 .dvc/cache/
 
 # ==========================
-# Temporary Files
+# Temporary Files (uploading files)
 # ==========================
 *.tmp
 *.temp
+
+# ==========================
+#temparory storage
+# ==========================
+storage/

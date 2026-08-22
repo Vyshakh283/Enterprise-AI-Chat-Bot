@@ -1,12 +1,14 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
+from Backend.app.core.logging import get_logger
 
 from Backend.app.core.security import decode_access_token
 from Backend.app.database.dependency import get_db
 from Backend.app.Models.user import User
 from Backend.app.repositories.user_repository import UserRepository
 
+logger=get_logger(__name__)
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/auth/oauth2-login"
@@ -22,6 +24,7 @@ def get_current_user(
         payload = decode_access_token(token)
 
     except Exception:
+        logger.warning("Invalid authentication credentials")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
@@ -33,6 +36,7 @@ def get_current_user(
     user_id = payload.get("sub")
 
     if user_id is None:
+        logger.warning("Invalid authentication credentials")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid authentication credentials",
@@ -46,6 +50,7 @@ def get_current_user(
     user = repository.get_by_id(int(user_id))
 
     if user is None:
+        logger.warning("Invalid authentication credentials")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User not found",
@@ -55,12 +60,14 @@ def get_current_user(
         )
 
     if not user.is_active:
+        logger.warning("Invalid authentication credentials")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="User account is inactive",
         )
 
     if user.is_locked:
+        logger.warning("Invalid authentication credentials")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="User account is locked",
