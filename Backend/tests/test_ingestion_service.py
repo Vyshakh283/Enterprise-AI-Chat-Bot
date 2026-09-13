@@ -1,35 +1,81 @@
-from Backend.app.Services.ingestion.ingestion_service import IngestionService
+from Backend.app.Services.ingestion.ingestion_service import (
+    IngestionService,
+)
 
 
 service = IngestionService()
 
 
-pdf_path = (
-    "storage/documents/4/"
-    "ccca9aad-3217-4c1c-b466-c0b4f6303577/"
-    "t1.pdf"
-)
-
-txt_path = "storage/test_documents/test_text.txt"
-
-
-print("\n========== PDF TEST ==========")
-
-pdf_pages = service.process(pdf_path)
-
-print(f"Total processed pages: {len(pdf_pages)}")
-
-for page in pdf_pages:
-    print(f"\n--- PAGE {page['page_number']} ---")
-    print(repr(page["text"]))
+test_files = [
+    (
+        "TXT",
+        "storage/test_documents/test_text.txt",
+    ),
+    (
+        "DOCX",
+        "storage/test_documents/test_document.docx",
+    ),
+    (
+        "PDF",
+        "storage/documents/4/ccca9aad-3217-4c1c-b466-c0b4f6303577/t1.pdf",
+    ),
+]
 
 
-print("\n========== TXT TEST ==========")
+for file_type, file_path in test_files:
 
-txt_pages = service.process(txt_path)
+    print(
+        f"\n\n========== {file_type} TEST =========="
+    )
 
-print(f"Total processed pages: {len(txt_pages)}")
+    result = service.process(file_path)
 
-for page in txt_pages:
-    print(f"\n--- PAGE {page['page_number']} ---")
-    print(repr(page["text"]))
+    analysis = result["analysis"]
+    routing = result["routing"]
+
+    print(
+        f"Total pages: "
+        f"{analysis['total_pages']}"
+    )
+
+    print(
+        f"Pages with text: "
+        f"{analysis['pages_with_text']}"
+    )
+
+    print(
+        f"Pages with images: "
+        f"{analysis['pages_with_images']}"
+    )
+
+    print(
+        f"Pages requiring OCR: "
+        f"{analysis['pages_requiring_ocr']}"
+    )
+
+    for page, analyzed_page, routed_page in zip(
+        result["pages"],
+        analysis["pages"],
+        routing["pages"],
+    ):
+
+        page_number = page["page_number"]
+
+        print(
+            f"\n--- PAGE {page_number} ---"
+        )
+
+        print(
+            f"Content type: "
+            f"{analyzed_page['content_type']}"
+        )
+
+        print(
+            f"Processing strategy: "
+            f"{routed_page['processing_strategy']}"
+        )
+
+        print(
+            f"Text: "
+            f"{page['text']!r}"
+        )

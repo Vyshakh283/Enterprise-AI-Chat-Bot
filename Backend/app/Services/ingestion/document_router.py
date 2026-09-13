@@ -2,6 +2,7 @@ from pathlib import Path
 
 from Backend.app.Services.ingestion.pdf_extractor import PDFParser
 from Backend.app.Services.ingestion.txt_extractor import TXTParser
+from Backend.app.Services.ingestion.docx_extractor import DOCXParser
 
 
 class DocumentRouter:
@@ -15,6 +16,7 @@ class DocumentRouter:
     def __init__(self) -> None:
         self.pdf_parser = PDFParser()
         self.txt_parser = TXTParser()
+        self.docx_parser =DOCXParser()
 
     def parse(
         self,
@@ -53,6 +55,9 @@ class DocumentRouter:
         
         if extension == ".txt":
             return self.txt_parser.parse(file_path)
+        
+        if extension == ".docx":
+            return self.docx_parser.parse(file_path)
 
         raise ValueError(
             f"Unsupported document type: {extension}"

@@ -3,20 +3,28 @@ from typing import cast
 
 import pymupdf
 
+
 class PDFParser:
-    
     """
     Parses a PDF document page by page.
 
     The parser only reads the original document.
     It does not modify or delete the source file.
+
+    Responsibilities:
+    - Validate PDF file
+    - Extract page text
+    - Detect embedded images
+    - Return page-level metadata
+
+    The parser does NOT:
+    - Perform OCR
+    - Call an AI model
+    - Analyze semantic meaning
+    - Route content to OCR/VLM/IDP
     """
 
-    def parse(
-        self,
-        file_path: str,
-    ) -> list[dict]:
-
+    def parse(self, file_path: str) -> list[dict]:
         path = Path(file_path)
 
         if not path.exists():
@@ -37,27 +45,33 @@ class PDFParser:
         pages: list[dict] = []
 
         try:
-
             with pymupdf.open(path) as pdf:
 
-                for page_number in range(
-                    pdf.page_count
-                ):
+                for page_number in range(pdf.page_count):
 
-                    page = pdf.load_page(
-                        page_number
+                    page = pdf.load_page(page_number)
+
+                    text = cast(
+                        str,
+                        page.get_text("text")
+                    ).strip()
+
+                    images = page.get_images(
+                        full=True
                     )
 
-                    text = cast(str, page.get_text("text")).strip()                  
+                    image_count = len(images)
+
                     pages.append(
                         {
                             "page_number": page_number + 1,
                             "text": text,
+                            "image_count": image_count,
+                            "has_image": image_count > 0,
                         }
                     )
 
         except Exception as exc:
-
             raise RuntimeError(
                 f"Failed to parse PDF: {path.name}"
             ) from exc
