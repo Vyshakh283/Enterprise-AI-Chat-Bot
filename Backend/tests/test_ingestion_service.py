@@ -28,7 +28,10 @@ for file_type, file_path in test_files:
         f"\n\n========== {file_type} TEST =========="
     )
 
-    result = service.process(file_path)
+    result = service.process(
+        file_path,
+        document_id=f"test-{file_type.lower()}-001",
+    )
 
     analysis = result["analysis"]
     routing = result["routing"]
@@ -76,6 +79,17 @@ for file_type, file_path in test_files:
         )
 
         print(
-            f"Text: "
-            f"{page['text']!r}"
+            f"Text: {page['text']!r}"
+        )
+
+    print(
+        "\n--- CANONICAL DOCUMENTS ---"
+    )
+
+    for canonical_document in result[
+        "canonical_documents"
+    ]:
+
+        print(
+            canonical_document.to_dict()
         )

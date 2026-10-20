@@ -26,6 +26,11 @@ class PDFParser:
 
     def parse(self, file_path: str) -> list[dict]:
         path = Path(file_path)
+        
+        if path.suffix.lower() != ".pdf":
+                    raise ValueError(
+                        f"Unsupported file type: {path.suffix}"
+                    )
 
         if not path.exists():
             raise FileNotFoundError(
@@ -37,10 +42,6 @@ class PDFParser:
                 f"Path is not a file: {file_path}"
             )
 
-        if path.suffix.lower() != ".pdf":
-            raise ValueError(
-                f"Unsupported file type: {path.suffix}"
-            )
 
         pages: list[dict] = []
 
